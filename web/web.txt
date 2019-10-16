@@ -1,0 +1,14 @@
+jhaddix/scripts
+zeropwn/spyse.py
+EdOverflow/bugbounty-cheatsheet
+samhaxr/XXRF-Shots
+D35m0nd142/LFISuite
+lc/theftfuzzer
+swisskyrepo/PayloadsAllTheThings
+OlivierLaflamme/Cheatsheet-God
+drk1wi/Modlishka
+s0md3v/XSStrike
+skavngr/rapidscan
+cujanovic/SSRF-Testing
+coreb1t/awesome-pentest-cheat-sheets
+googleinurl/Wordpress-A.F.D-Verification
