@@ -4,3 +4,4 @@ tomnomnom/waybackurls
 tomnomnom/assetfinder
 tomnomnom/gf
 tomnomnom/rawhttp
+ffuf/ffuf
