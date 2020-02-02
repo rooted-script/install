@@ -11,4 +11,4 @@ cat go.txt | xargs -n1 -I a go get -u github.com/a
 >
 cat * .txt | xargs -n1 -I a sh -c "git clone https://github.com/a"
 
-<img src="https://www.hackthebox.eu/badge/image/143449" alt="Hack The Box">
+ <script src="https://www.hackthebox.eu/badge/143449"></script>
