@@ -4,7 +4,7 @@
 #
 HISTCONTROL=ignoredups:ignorespace
 HISTSIZE=100000
-HISTFILESIZE=2000000
+HISTFILESIZE=200000
 shopt -s histappend
 
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
@@ -125,10 +125,45 @@ cat $1.txt | while read line; do python3 dirsearch.py -e . -u "https://$line"; d
 ipinfo(){
 curl http://ipinfo.io/$1
 }
+deadlink() {
+        # copyright 2007 - 2010 Christopher Bratusek
+        find -L -type l
+}
+# about files depending on the available space
+function lls() {
+        # count files
+        echo -n "<`find . -maxdepth 1 -mindepth 1 -type f | wc -l | tr -d '[:space:]'` files>"
+        # count sub-directories
+        echo -n " <`find . -maxdepth 1 -mindepth 1 -type d | wc -l | tr -d '[:space:]'` dirs/>"
+        # count links
+        echo -n " <`find . -maxdepth 1 -mindepth 1 -type l | wc -l | tr -d '[:space:]'` links@>"
+        # total disk space used by this directory and all subdirectories
+        echo " <~`du -sh . 2> /dev/null | cut -f1`>"
+        ROWS=`stty size | cut -d' ' -f1`
+        FILES=`find . -maxdepth 1 -mindepth 1 |
+        wc -l | tr -d '[:space:]'`
+        # if the terminal has enough lines, do a long listing
+        if [ `expr "${ROWS}" - 6` -lt "${FILES}" ]; then
+                ls
+        else
+                ls -hlAF --full-time
+        fi
+}
+
+##################################################
+# Mailme                                         #
+##################################################
+ 
+function mailme()
+{
+        echo "$@" | mail -s "$1" $SERVERMAIL
+}
+
+
 
 #------ Tools ------
 dirsearch(){
-cd /tools/dirsearch*
+cd /opt/dirsearch*
 python3 dirsearch.py -e . -u $1
 }
 
@@ -250,7 +285,9 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1="\[\033[0;31m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;31m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 0 ]]; then echo '\[\033[01;31m\]root\[\033[01;33m\]@\[\033[01;96m\]\h'; else echo '\[\033[0;39m\]\u\[\033[01;33m\]@\[\033[01;96m\]\h'; fi)\[\033[0;31m\]]\342\224\200[\[\033[0;32m\]\w\[\033[0;31m\]]\n\[\033[0;31m\]\342\224\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]\[\e[01;33m\]\\$\[\e[0m\]"
+    #PS1="\[\033[0;31m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;31m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 0 ]]; then echo '\[\033[01;31m\]root\[\033[01;33m\]@\[\033[01;96m\]\h'; else echo '\[\033[0;39m\]\u\[\033[01;33m\]@\[\033[01;96m\]\h'; fi)\[\033[0;31m\]]\342\224\200[\[\033[0;32m\]\w\[\033[0;31m\]]\n\[\033[0;31m\]\342\224\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]\[\e[01;33m\]\\$\[\e[0m\]"
+PS1='\[\033[1;30m\][\[\033[0;37m\]${PIPESTATUS}\[\033[1;30m\]:\[\033[0;37m\]${SHLVL}\[\033[1;30m\]:\[\033[0;37m\]\j\[\033[1;30m\]][\[\033[1;34m\]\u\[\033[0;34m\]@\[\033[1;34m\]\h\[\033[1;30m\]:\[\033[0;37m\]`tty | sed s/\\\\\/dev\\\\\/\//g`\[\033[1;30m\]]\[\033[0;37m\][\[\033[1;37m\]\W\[\033[0;37m\]]\[\033[1;30m\] \$\[\033[00m\] '                                                                  
+# grey and blue with default black output
 else
     PS1='┌──[\u@\h]─[\w]\n└──╼ \$ '
 fi
