@@ -182,6 +182,9 @@ nc -l -n -vv -p $1 -k
 ffufd(){
 ffuf -w /usr/share/wordlists/dirb/big.txt -u https://$1/FUZZ -mc all -fs 42 -c -o dirs.txt
 }
+li-of-ho(){
+sed 's#^#http://#g' list-of-hosts > output
+}
 
 # Colours have names too. Stolen from Arch wiki
 txtblk='\[\e[0;30m\]' # Black - Regular
