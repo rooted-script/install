@@ -5,3 +5,8 @@ tomnomnom/assetfinder
 tomnomnom/gf
 tomnomnom/rawhttp
 ffuf/ffuf
+michenriksen/gitrob
+003random/getJS
+ce3man543/SubOver
+lukasikic/subzy
+tomnomnom/hacks/tojson
