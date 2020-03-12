@@ -34,7 +34,7 @@ export EDITOR=/usr/bin/vim
 export PATH=${PATH}:~/bin:~/.local/bin:~/etc/scripts
 
 # I'd quite like for Go to work please.
-export PATH=${PATH}:/usr/local/go/bin
+export PATH=${PATH}:/usr/local/go/bin:$HOME/go/bin/bin
 export GOPATH=~
 
 
@@ -104,7 +104,9 @@ aws s3 ls s3://$1
 s3cp(){
 aws s3 cp $2 s3://$1 
 }
-
+ffufd(){
+ffuf -w /usr/share/wordlists/dirb/big.txt -u https://$1/FUZZ -mc all -fs 42 -c -o $1~dirs.txt
+}
 #----- misc -----
 certspotter(){
 curl -s https://certspotter.com/api/v0/certs\?domain\=$1 | jq '.[].dns_names[]' | sed 's/\"//g' | sed 's/\*\.//g' | sort -u | grep $1
@@ -178,12 +180,6 @@ python knockpy.py -w list.txt $1
 
 ncx(){
 nc -l -n -vv -p $1 -k
-}
-ffufd(){
-ffuf -w /usr/share/wordlists/dirb/big.txt -u https://$1/FUZZ -mc all -fs 42 -c -o dirs.txt
-}
-li-of-ho(){
-sed 's#^#http://#g' list-of-hosts > output
 }
 
 # Colours have names too. Stolen from Arch wiki
@@ -290,13 +286,11 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-if [ "$color_prompt" = yes ]; then
+
     #PS1="\[\033[0;31m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;31m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 0 ]]; then echo '\[\033[01;31m\]root\[\033[01;33m\]@\[\033[01;96m\]\h'; else echo '\[\033[0;39m\]\u\[\033[01;33m\]@\[\033[01;96m\]\h'; fi)\[\033[0;31m\]]\342\224\200[\[\033[0;32m\]\w\[\033[0;31m\]]\n\[\033[0;31m\]\342\224\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]\[\e[01;33m\]\\$\[\e[0m\]"
-PS1='\[\033[1;30m\][\[\033[0;37m\]${PIPESTATUS}\[\033[1;30m\]:\[\033[0;37m\]${SHLVL}\[\033[1;30m\]:\[\033[0;37m\]\j\[\033[1;30m\]][\[\033[1;34m\]\u\[\033[0;34m\]@\[\033[1;34m\]\h\[\033[1;30m\]:\[\033[0;37m\]`tty | sed s/\\\\\/dev\\\\\/\//g`\[\033[1;30m\]]\[\033[0;37m\][\[\033[1;37m\]\W\[\033[0;37m\]]\[\033[1;30m\] \$\[\033[00m\] '                                                                  
+    PS1='\[\033[1;30m\][\[\033[0;37m\]${PIPESTATUS}\[\033[1;30m\]:\[\033[0;37m\]${SHLVL}\[\033[1;30m\]:\[\033[0;37m\]\j\[\033[1;30m\]][\[\033[1;34m\]\u\[\033[0;34m\]@\[\033[1;34m\]\h\[\033[1;30m\]:\[\033[0;37m\]`tty | sed s/\\\\\/dev\\\\\/\//g`\[\033[1;30m\]]\[\033[0;37m\][\[\033[1;37m\]\W\[\033[0;37m\]]\[\033[1;30m\] \$\[\033[00m\] '                                                                  
 # grey and blue with default black output
-else
-    PS1='┌──[\u@\h]─[\w]\n└──╼ \$ '
-fi
+
 
 # Set 'man' colors
 if [ "$color_prompt" = yes ]; then
@@ -314,6 +308,16 @@ if [ "$color_prompt" = yes ]; then
 fi
 
 unset color_prompt force_color_prompt
+
+# If this is an xterm set the title to user@host:dir
+#case "$TERM" in
+#xterm*|rxvt*)
+ 
+#    PS1="\[\033[0;31m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;31m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 0 ]]; then echo '\[\033[01;31m\]root\[\033[01;33m\]@\[\033[01;96m\]\h'; else echo '\[\033[0;39m\]\u\[\033[01;33m\]@\[\033[01;96m\]\h'; fi)\[\033[0;31m\]]\342\224\200[\[\033[0;32m\]\w\[\033[0;31m\]]\n\[\033[0;31m\]\342\224\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]\[\e[01;33m\]\\$\[\e[0m\]"
+#    ;;
+#*)
+#    ;;
+#esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -337,7 +341,7 @@ alias _='sudo'
 alias _i='sudo -i'
 alias cls='clear'
 alias rsup='apt upgrade && apt upgrade -y'
-
+alias p='pwd'
 
 
 
@@ -359,4 +363,4 @@ if ! shopt -oq posix; then
   elif [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
   fi
-fi                                                                                                                                                                                                             
+fi                       
