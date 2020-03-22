@@ -18,3 +18,5 @@ GerbenJavado/LinkFinder
 antichown/subdomain-takeover
 swisskyrepo/SSRFmap
 chenjj/CORScanner
+fellchase/flumberboozle
+s0md3v/Silver
