@@ -342,6 +342,7 @@ alias _i='sudo -i'
 alias cls='clear'
 alias rsup='apt upgrade && apt upgrade -y'
 alias p='pwd'
+alias op='openvpn'
 
 
 
