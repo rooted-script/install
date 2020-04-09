@@ -11,3 +11,4 @@ ce3man543/SubOver
 lukasikic/subzy
 tomnomnom/hacks/tojson
 tomnomnom/hacks/html-tool
+OWASP/Amass
