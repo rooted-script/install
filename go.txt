@@ -12,3 +12,6 @@ lukasikic/subzy
 tomnomnom/hacks/tojson
 tomnomnom/hacks/html-tool
 OWASP/Amass
+michenriksen/aquatone
+mhmdiaa/waybackunifier
+subfinder/subfinder
