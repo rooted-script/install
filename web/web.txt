@@ -20,3 +20,5 @@ swisskyrepo/SSRFmap
 chenjj/CORScanner
 fellchase/flumberboozle
 s0md3v/Silver
+knassar702/opener
+devanshbatham/ParamSpider
